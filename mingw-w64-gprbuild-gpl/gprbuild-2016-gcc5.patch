@@ -1,0 +1,38 @@
+diff -Naur gprbuild-gpl-2016-src-orig/src/gprlib.adb gprbuild-gpl-2016-src/src/gprlib.adb
+--- gprbuild-gpl-2016-src-orig/src/gprlib.adb	2016-05-16 12:44:00.000000000 +0300
++++ gprbuild-gpl-2016-src/src/gprlib.adb	2016-11-30 20:27:21.255975052 +0200
+@@ -22,6 +22,7 @@
+ 
+ with Ada.Command_Line;  use Ada.Command_Line;
+ with Ada.Text_IO;       use Ada.Text_IO;
++with Ada.Strings.Fixed;
+ 
+ with GNAT.Case_Util;            use GNAT.Case_Util;
+ with GNAT.Directory_Operations; use GNAT.Directory_Operations;
+@@ -1154,6 +1155,26 @@
+                      GNAT_Version := new String'(Line (6 .. Last));
+                      GNAT_Version_Set := True;
+ 
++                     --  The version numbering scheme changed in GCC 5.
++                     --  If there is a dot in the version, and the part before
++                     --  the dot is 5 or greater, then use only that part in
++                     --  the library names.
++
++                     declare
++                        Pos : Natural :=
++                           Ada.Strings.Fixed.Index (Line, ".", 6);
++                     begin
++                        if Pos > 0 then
++                           Pos := Pos - 1;  --  the last digit before first dot
++                           if Natural'Value (Line (6 .. Pos)) >= 5 then
++                              Last := Pos;
++                           end if;
++                        end if;
++                     exception
++                        when Constraint_Error =>
++                           null;  -- Not a number? Then let it be.
++                     end;
++
+                      Libgnat :=
+                        new String'
+                          ("-lgnat-" & Line (6 .. Last));

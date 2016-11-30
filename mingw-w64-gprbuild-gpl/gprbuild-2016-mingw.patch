@@ -1,0 +1,220 @@
+diff -Naur gprbuild-gpl-2016-src_/share/gprconfig/compilers.xml gprbuild-gpl-2016-src/share/gprconfig/compilers.xml
+--- gprbuild-gpl-2016-src_/share/gprconfig/compilers.xml	2016-11-02 22:45:14.062517653 +0200
++++ gprbuild-gpl-2016-src/share/gprconfig/compilers.xml	2016-11-02 22:54:41.767537076 +0200
+@@ -20,7 +20,7 @@
+   <!--    GCC 3.x & 4.x (not for GNAT Pro)-->
+   <compiler_description>
+     <name>GCC</name>
+-    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-pc-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-|linux-gnu-)?gcc</executable>
++    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-w64-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-|linux-gnu-)?gcc</executable>
+     <version>
+       <external>${PREFIX}gcc -v</external>
+       <nogrep regexp="for GNAT Pro"></nogrep>
+@@ -36,7 +36,7 @@
+   <!--    GCC for GNAT Pro 3.x & 4.x -->
+   <compiler_description>
+     <name>GCC_Pro</name>
+-    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-pc-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gcc</executable>
++    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-w64-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gcc</executable>
+     <version>
+       <external>${PREFIX}gcc -v</external>
+ 
+@@ -719,7 +719,7 @@
+   <!--  Assembler -->
+   <compiler_description>
+     <name>GCC-ASM</name>
+-    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-pc-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gcc</executable>
++    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-w64-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gcc</executable>
+     <version>
+       <external>${PREFIX}gcc -v</external>
+       <grep regexp="^gcc \S+ (\S+)" group="1"></grep>
+@@ -739,7 +739,7 @@
+    -->
+   <compiler_description>
+     <name>GNAT</name>
+-    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-pc-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gnatmake</executable>
++    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-w64-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gnatmake</executable>
+     <version>
+       <external>${PREFIX}gnatls -v --version</external>
+       <grep regexp="^GNATLS.+?(\d+(\.\d+)?)" group="1"></grep>
+diff -Naur gprbuild-gpl-2016-src_/share/gprconfig/cross.xml gprbuild-gpl-2016-src/share/gprconfig/cross.xml
+--- gprbuild-gpl-2016-src_/share/gprconfig/cross.xml	2016-04-25 18:07:17.000000000 +0300
++++ gprbuild-gpl-2016-src/share/gprconfig/cross.xml	2016-11-02 22:54:41.768537076 +0200
+@@ -17,7 +17,7 @@
+    <configuration>
+      <targets>
+        <target name="dotnet" />
+-       <target name="^.*-pc-mingw32$" />
++       <target name="^.*-w64-mingw32$" />
+      </targets>
+      <config>
+    package Builder is
+diff -Naur gprbuild-gpl-2016-src_/share/gprconfig/linker.xml gprbuild-gpl-2016-src/share/gprconfig/linker.xml
+--- gprbuild-gpl-2016-src_/share/gprconfig/linker.xml	2016-11-02 22:45:14.062517653 +0200
++++ gprbuild-gpl-2016-src/share/gprconfig/linker.xml	2016-11-02 23:50:53.664652436 +0200
+@@ -9,13 +9,13 @@
+ 
+   <configuration>
+     <targets>
+-      <target name="^i686-pc-mingw32$" />
++      <target name="^i686-w64-mingw32$" />
+     </targets>
+     <hosts negate="true">
+-      <host name="^i686-pc-mingw32$" />
++      <host name="^i686-w64-mingw32$" />
+     </hosts>
+     <config>
+-   for Object_Lister use ("i686-pc-mingw32-nm", "-g", "--no-demangle");
++   for Object_Lister use ("i686-w64-mingw32-nm", "-g", "--no-demangle");
+    for Object_Lister_Matcher use " [TDRB] _(.*)";
+ 
+    package Linker is
+@@ -27,13 +27,13 @@
+ 
+   <configuration>
+     <targets>
+-      <target name="^x86_64-pc-mingw32$" />
++      <target name="^x86_64-w64-mingw32$" />
+     </targets>
+     <hosts negate="true">
+-      <host name="^x86_64-pc-mingw32$" />
++      <host name="^x86_64-w64-mingw32$" />
+     </hosts>
+     <config>
+-   for Object_Lister use ("x86_64-pc-mingw32-nm", "-g", "--no-demangle");
++   for Object_Lister use ("x86_64-w64-mingw32-nm", "-g", "--no-demangle");
+    for Object_Lister_Matcher use " [TDRB] (.*)";
+ 
+    package Linker is
+@@ -45,10 +45,10 @@
+ 
+   <configuration>
+     <targets>
+-      <target name="^i686-pc-mingw32$" />
++      <target name="^i686-w64-mingw32$" />
+     </targets>
+     <hosts>
+-      <host name="^i686-pc-mingw32$" />
++      <host name="^i686-w64-mingw32$" />
+     </hosts>
+     <config>
+    for Object_Lister use ("nm", "-g", "--no-demangle");
+@@ -63,10 +63,10 @@
+ 
+   <configuration>
+     <targets>
+-      <target name="^x86_64-pc-mingw32$" />
++      <target name="^x86_64-w64-mingw32$" />
+     </targets>
+     <hosts>
+-      <host name="^x86_64-pc-mingw32$" />
++      <host name="^x86_64-w64-mingw32$" />
+     </hosts>
+     <config>
+    for Object_Lister use ("nm", "-g", "--no-demangle");
+@@ -235,25 +235,25 @@
+ 
+   <configuration>
+     <targets>
+-      <target name="^i686-pc-mingw32$" />
++      <target name="^i686-w64-mingw32$" />
+     </targets>
+     <hosts negate="true">
+-      <host name="^i686-pc-mingw32$" />
++      <host name="^i686-w64-mingw32$" />
+     </hosts>
+     <config>
+-   for Archive_Builder  use ("i686-pc-mingw32-ar", "cr");
++   for Archive_Builder  use ("i686-w64-mingw32-ar", "cr");
+    for Archive_Builder_Append_Option use ("q");
+-   for Archive_Indexer  use ("i686-pc-mingw32-ranlib");
++   for Archive_Indexer  use ("i686-w64-mingw32-ranlib");
+    for Archive_Suffix   use ".a";
+     </config>
+   </configuration>
+ 
+   <configuration>
+     <targets>
+-      <target name="^i686-pc-mingw32$" />
++      <target name="^i686-w64-mingw32$" />
+     </targets>
+     <hosts>
+-      <host name="^i686-pc-mingw32$" />
++      <host name="^i686-w64-mingw32$" />
+     </hosts>
+     <config>
+    for Archive_Builder  use ("ar", "cr");
+@@ -265,25 +265,25 @@
+ 
+   <configuration>
+     <targets>
+-      <target name="^x86_64-pc-mingw32$" />
++      <target name="^x86_64-w64-mingw32$" />
+     </targets>
+     <hosts negate="true">
+-      <host name="^x86_64-pc-mingw32$" />
++      <host name="^x86_64-w64-mingw32$" />
+     </hosts>
+     <config>
+-   for Archive_Builder  use ("x86_64-pc-mingw32-ar", "cr");
++   for Archive_Builder  use ("x86_64-w64-mingw32-ar", "cr");
+    for Archive_Builder_Append_Option use ("q");
+-   for Archive_Indexer  use ("x86_64-pc-mingw32-ranlib");
++   for Archive_Indexer  use ("x86_64-w64-mingw32-ranlib");
+    for Archive_Suffix   use ".a";
+     </config>
+   </configuration>
+ 
+   <configuration>
+     <targets>
+-      <target name="^x86_64-pc-mingw32$" />
++      <target name="^x86_64-w64-mingw32$" />
+     </targets>
+     <hosts>
+-      <host name="^x86_64-pc-mingw32$" />
++      <host name="^x86_64-w64-mingw32$" />
+     </hosts>
+     <config>
+    for Archive_Builder  use ("ar", "cr");
+@@ -793,7 +793,7 @@
+       <target name="^arm-eabi$"/>
+       <target name="^.*aix.*$" />
+       <target name="^.*ia64.*hpux.*$" />
+-      <target name="^.*pc-mingw32$" />
++      <target name="^.*w64-mingw32$" />
+       <target name="^.*-pikeos$" />
+       <target name="^arm-linux-androideabi$" />
+       <target name="^.*-gnueabihf$" />
+diff -Naur gprbuild-gpl-2016-src_/share/gprconfig/targetset.xml gprbuild-gpl-2016-src/share/gprconfig/targetset.xml
+--- gprbuild-gpl-2016-src_/share/gprconfig/targetset.xml	2016-04-25 18:07:17.000000000 +0300
++++ gprbuild-gpl-2016-src/share/gprconfig/targetset.xml	2016-11-02 22:54:41.773537076 +0200
+@@ -88,7 +88,7 @@
+ 
+   <!-- x86-windows (mingw) -->
+   <targetset>
+-    <!--  known targets: pentium-mingw32msv, i686-pc-mingw32 -->
++    <!--  known targets: pentium-mingw32msv, i686-w64-mingw32 -->
+     <target>x86-windows</target>
+     <target>mingw32</target>
+     <target>i.86-.*mingw32.*</target>
+@@ -97,7 +97,7 @@
+ 
+   <!-- x86_64-windows (mingw) -->
+   <targetset>
+-    <!--  known targets: x86_64-pc-mingw32 -->
++    <!--  known targets: x86_64-w64-mingw32 -->
+     <target>x86_64-windows</target>
+     <target>x86_64-.*mingw32.*</target>
+   </targetset>
+diff -Naur gprbuild-gpl-2016-src_/share/gprconfig/windres.xml gprbuild-gpl-2016-src/share/gprconfig/windres.xml
+--- gprbuild-gpl-2016-src_/share/gprconfig/windres.xml	2016-04-25 18:07:17.000000000 +0300
++++ gprbuild-gpl-2016-src/share/gprconfig/windres.xml	2016-11-02 22:54:41.773537076 +0200
+@@ -4,7 +4,7 @@
+ 
+   <compiler_description>
+     <name>WINDRES</name>
+-    <executable prefix="1">(i686-pc-mingw32-|x86_64-pc-mingw32-)?windres</executable>
++    <executable prefix="1">(i686-w64-mingw32-|x86_64-w64-mingw32-)?windres</executable>
+     <version>
+       <external>${PREFIX}windres --version</external>
+       <grep regexp="^GNU windres \(GNU Binutils\) (\S+)" group="1"></grep>

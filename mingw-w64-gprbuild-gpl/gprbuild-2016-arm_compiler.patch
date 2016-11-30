@@ -1,0 +1,25 @@
+diff --git a/share/gprconfig/compilers.xml b/share/gprconfig/compilers.xml
+index 04fa80e..312fe0b 100644
+--- a/share/gprconfig/compilers.xml
++++ b/share/gprconfig/compilers.xml
+@@ -20,7 +20,7 @@
+   <!--    GCC 3.x & 4.x (not for GNAT Pro)-->
+   <compiler_description>
+     <name>GCC</name>
+-    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-pc-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-)?gcc</executable>
++    <executable prefix="1">(.*-wrs-.*|.*-sysgo.*|.*-elf-.*|.*-eabi-.*|.*-eabispe-.*|avr-.*|.*-elinos-linux.*|.*-pc-mingw32.*|.*-xcoff-.*|arm-linux-androideabi-|arm-linux-gnueabi-|arm-linux-gnueabihf-|e500v2-gnu-linux-|.*-darwin.*-|linux-gnu-)?gcc</executable>
+     <version>
+       <external>${PREFIX}gcc -v</external>
+       <nogrep regexp="for GNAT Pro"></nogrep>
+diff --git a/share/gprconfig/linker.xml b/share/gprconfig/linker.xml
+index e1f637d..575d926 100644
+--- a/share/gprconfig/linker.xml
++++ b/share/gprconfig/linker.xml
+@@ -797,7 +797,6 @@
+       <target name="^.*-pikeos$" />
+       <target name="^arm-linux-androideabi$" />
+       <target name="^.*-gnueabihf$" />
+-      <target name="^.*-gnueabi$" />
+     </targets>
+     <config>
+    for Archive_Builder  use ("ar", "cr");

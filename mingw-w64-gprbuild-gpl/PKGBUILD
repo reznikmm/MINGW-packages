@@ -4,46 +4,63 @@ _realname=gprbuild-gpl
 pkgbase=mingw-w64-${_realname}
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
 pkgrel=1
-pkgver=2014
+pkgver=2016
 pkgdesc="Software tool designed to help automate the construction of multi-language systems"
 arch=('any')
 provides=("${MINGW_PACKAGE_PREFIX}-${_realname%-*}")
 license=('GPL3')
 makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
-             #"${MINGW_PACKAGE_PREFIX}-xmlada"
             )
 depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
-        # "${MINGW_PACKAGE_PREFIX}-xmlada"
          )
 url="http://www.adacore.com/gnatpro/toolsuite/gprbuild/"
-source=("http://downloads.dragonlace.net/src/${_realname}-${pkgver}-src.tar.gz"
-        "0001_gnat_vmsp.patch")
-sha256sums=('3c8986ff5f83cc0d3ee69f6e71d9f69a7eb1a7e2656493c829b18fb55c4ad5ac'
-            'a05e637de1ef87d3cf64bb179594a6707fae650120adeee8ae0310622b2ced02')
+source=(# gprbuild-gpl-2016-src.tar.gz 
+        "http://mirrors.cdn.adacore.com/art/57399662c7a447658e0affa8"
+        # xmlada-gpl-2016-src.tar.gz 
+        "http://mirrors.cdn.adacore.com/art/57399978c7a447658e0affc0"
+        "gprbuild-2016-gcc5.patch"
+        "gprbuild-2016-arm_compiler.patch"
+        "gprbuild-2016-mingw.patch"
+        "gprbuild-2016-gnatmake.patch")
+sha256sums=('d51659454bc0aaf1a9a9f1d05aab469a1f3d900065a4542123d3a59ab067275d'
+            'ea64d8da2c5fb01a257fc5bf474b8d4ec40b01dc15b320b9fe260ff2db668ba4'
+            'd146cb6ecdd43a7349e3747e85cab7bff74d889e162541417668c5c5313c9b45'
+            'f2b33b3b965adf6827d45be420f27b3678f8d4a403d3bba7915770f958782da7'
+            '7ace2e62901293a166b15fcedcd9f3847a0c92fb33c7fa5fa4d8a47f8f9a304c'
+            'ef088baef72846ea3349ec9d3b3b37c0d792d9ed6779c2919111c7625533e914')
 
 prepare()
 {
   cd ${srcdir}/${_realname}-${pkgver}-src
 
-  patch -p1 -i "${srcdir}/0001_gnat_vmsp.patch"
+  patch -p1 -i "${srcdir}/gprbuild-2016-gcc5.patch"
+  patch -p1 -i "${srcdir}/gprbuild-2016-arm_compiler.patch"
+  patch -p1 -i "${srcdir}/gprbuild-2016-mingw.patch"
+  patch -p1 -i "${srcdir}/gprbuild-2016-gnatmake.patch"
 }
 
 build() {
   cd ${srcdir}/${_realname}-${pkgver}-src
-  if [ -f Makefile ]; then
-    make distclean
-  fi
+  # bootstrap gprbuild with gnatmake
+  gcc -c src/gpr_imports.c
+  gnatmake.exe -p -P gprbuild.gpr -largs gpr_imports.o
+  mkdir -p libexec/gprbuild
+  mv exe/gpr{lib,bind}.exe libexec/gprbuild/
+  mv exe bin
+  export PATH=${srcdir}/${_realname}-${pkgver}-src/bin:$PATH
+  # end of bootstrap
+
   ./configure \
     --build=${MINGW_CHOST} \
     --host=${MINGW_CHOST} \
     --prefix=${MINGW_PREFIX}
 
-    make
+  make
 }
 
 package() {
   cd ${srcdir}/${_realname}-${pkgver}-src
-  make prefix="${pkgdir}${MINGW_PREFIX}" INSTALL=cp install
+  make prefix="${pkgdir}${MINGW_PREFIX}" install
 
   # Copy License Files
   mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}

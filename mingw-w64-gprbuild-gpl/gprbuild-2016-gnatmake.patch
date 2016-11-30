@@ -1,0 +1,12 @@
+diff -Naur gprbuild-gpl-2016-src-org/xmlada.gpr gprbuild-gpl-2016-src/xmlada.gpr
+--- gprbuild-gpl-2016-src-org/xmlada.gpr	1970-01-01 03:00:00.000000000 +0300
++++ gprbuild-gpl-2016-src/xmlada.gpr	2016-11-30 19:41:09.274904666 +0200
+@@ -0,0 +1,8 @@
++project xmlada is
++   for Source_Dirs use
++     ("../xmlada-gpl-2016-src/dom",
++      "../xmlada-gpl-2016-src/input_sources", 
++      "../xmlada-gpl-2016-src/sax", 
++      "../xmlada-gpl-2016-src/schema",
++      "../xmlada-gpl-2016-src/unicode");
++end xmlada;
