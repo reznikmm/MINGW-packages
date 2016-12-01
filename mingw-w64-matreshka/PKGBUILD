@@ -3,7 +3,7 @@
 _realname=matreshka
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
 pkgrel=1
-#pkgver=
+pkgver=0.8
 pkgdesc="set of Ada libraries to develop information systems."
 arch=('any')
 license=('BSD')
