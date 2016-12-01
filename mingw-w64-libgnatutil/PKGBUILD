@@ -1,0 +1,31 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=libgnatutil
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
+pkgrel=1
+pkgver=6.2.1
+pkgdesc="Provides internal GNAT compiler components in a library which is used by (at least) ASIS and GNATColl."
+arch=('any')
+license=('GPL3')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada")
+url="https://sourceforge.net/projects/gnatutil/"
+source=("http://www.ada-ru.org/files/gnat_util-6.2.1.tar.gz")
+sha256sums=('b172b3c223535c2086eedc207fdbb27c592c66064f5051f0d71bf11080b0d9e0')
+
+prepare()
+{
+  cd ${srcdir}/gnat_util-${pkgver}
+}
+
+build() {
+  cd ${srcdir}/gnat_util-${pkgver}
+  gprbuild -p -P gnat_util.gpr
+}
+
+package() {
+  cd ${srcdir}/gnat_util-${pkgver}
+  gprinstall --prefix="${pkgdir}${MINGW_PREFIX}" -p -P gnat_util.gpr
+}
