@@ -49,12 +49,14 @@ prepare()
 
 build() {
   cd ${srcdir}/${_realname}
+  make config
+  ./configure --prefix="${pkgdir}${MINGW_PREFIX}"
   make
 }
 
 package() {
   cd ${srcdir}/${_realname}
-  make install prefix="${pkgdir}${MINGW_PREFIX}"
+  make install
 
   # Copy License Files
   mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}
