@@ -1,0 +1,37 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=aws
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
+pkgrel=1
+pkgver=2016
+pkgdesc="A complete embeddable Web application framework for Ada."
+arch=('any')
+license=('GPL3')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+         )
+url="http://libre.adacore.com/tools/aws"
+source=(# aws-gpl-2016-src.tar.gz
+        "http://mirrors.cdn.adacore.com/art/57399112c7a447658d00e1cd")
+sha256sums=('310d7a79fba1cf622f6c8d53103226422c788126198911efef09e372d559db32')
+
+prepare()
+{
+  cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+}
+
+build() {
+  cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+  make setup build
+}
+
+package() {
+  cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+  make install prefix="${pkgdir}${MINGW_PREFIX}"
+
+  # Copy License Files
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}
+  cp -pf COPYING* ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/
+}
