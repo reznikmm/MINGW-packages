@@ -1,0 +1,41 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=libgpr
+pkgbase=mingw-w64-${_realname}
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
+pkgrel=1
+pkgver=2016
+pkgdesc="Ada library to handle GPRbuild project files"
+arch=('any')
+provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
+license=('GPL3')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild-gpl"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+         )
+url="https://github.com/AdaCore/gprbuild"
+source=(# gprbuild-gpl-2016-src.tar.gz 
+        "http://mirrors.cdn.adacore.com/art/57399662c7a447658e0affa8")
+sha256sums=('d51659454bc0aaf1a9a9f1d05aab469a1f3d900065a4542123d3a59ab067275d')
+
+prepare()
+{
+  cd ${srcdir}/gprbuild-gpl-${pkgver}-src
+}
+
+build() {
+  cd ${srcdir}/gprbuild-gpl-${pkgver}-src
+  gprbuild -XLIBRARY_TYPE=static -P$(srcdir)/gpr/gpr.gpr
+}
+
+package() {
+  cd ${srcdir}/gprbuild-gpl-${pkgver}-src
+  gprinstall --prefix="${pkgdir}${MINGW_PREFIX}" \
+  -XLIBRARY_TYPE=static --lib-subdir=lib/gpr/static --build-name=static \
+  -P$(srcdir)/gpr/gpr.gpr
+
+  # Copy License Files
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}
+  cp -pf COPYING* ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/
+}
