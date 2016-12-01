@@ -1,0 +1,58 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=asdd
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}-svn
+pkgrel=1
+pkgver=0.8
+pkgdesc="AWS SpikeDog driver"
+arch=('any')
+license=('BSD')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
+             "${MINGW_PACKAGE_PREFIX}-matreshka"
+             "${MINGW_PACKAGE_PREFIX}-aws"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+         "${MINGW_PACKAGE_PREFIX}-matreshka"
+         "${MINGW_PACKAGE_PREFIX}-aws"
+         )
+url="http://forge.ada-ru.org/matreshka"
+source=(${_realname}::"svn+svn://forge.ada-ru.org/matreshka/trunk/design/servlet")
+sha256sums=('SKIP')
+
+fix_gnat_dll()
+{
+   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # remove them and copy dll-s in place
+
+   libgcc=`gcc -print-libgcc-file-name`
+   adalib=`dirname ${libgcc}`/adalib
+   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+      gcc_bin=`which gcc`
+      bin_dir=`dirname ${gcc_bin}`
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
+   fi
+}
+
+pkgver()
+{
+   date +%Y.%m.%d
+}
+
+prepare()
+{
+  cd ${srcdir}/${_realname}
+  fix_gnat_dll
+}
+
+build() {
+  cd ${srcdir}/${_realname}
+  gprbuild -p -P aws_server.gpr
+}
+
+package() {
+  cd ${srcdir}/${_realname}
+  gprinstall -p -P aws_server.gpr prefix="${pkgdir}${MINGW_PREFIX}"
+}
