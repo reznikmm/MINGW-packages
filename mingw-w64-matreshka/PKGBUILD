@@ -1,0 +1,42 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=matreshka
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
+pkgrel=1
+#pkgver=
+pkgdesc="set of Ada libraries to develop information systems."
+arch=('any')
+license=('BSD')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
+             "${MINGW_PACKAGE_PREFIX}-asis"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+         )
+url="http://forge.ada-ru.org/matreshka"
+source=("git+https://github.com/reznikmm/matreshka.git")
+sha256sums=('SKIP')
+
+pkgver()
+{
+   date +%Y.%m.%d
+}
+
+prepare()
+{
+  cd ${srcdir}/${_realname}
+}
+
+build() {
+  cd ${srcdir}/${_realname}
+  make
+}
+
+package() {
+  cd ${srcdir}/${_realname}
+  make install prefix="${pkgdir}${MINGW_PREFIX}"
+
+  # Copy License Files
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}
+  cp -pf LICENSE ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/
+}
