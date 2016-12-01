@@ -54,5 +54,12 @@ build() {
 
 package() {
   cd ${srcdir}/${_realname}
-  gprinstall -p -P aws_server.gpr prefix="${pkgdir}${MINGW_PREFIX}"
+  gprinstall -p -P aws_server.gpr --prefix="${pkgdir}${MINGW_PREFIX}"
+  pwd
+  echo srcdir:${srcdir}
+  echo $(cygpath ${srcdir})
+  ls ${srcdir}
+  echo '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../asdd.nsi)
+  '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../asdd.nsi)
+  mv ../../setup-asdd.exe $(cygpath $APPVEYOR_BUILD_FOLDER/artifacts/)
 }
