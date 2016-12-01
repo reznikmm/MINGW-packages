@@ -10,7 +10,7 @@ arch=('any')
 provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 license=('GPL3')
 makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
-             "${MINGW_PACKAGE_PREFIX}-gprbuild-gpl"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
             )
 depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
          )
@@ -26,14 +26,14 @@ prepare()
 
 build() {
   cd ${srcdir}/gprbuild-gpl-${pkgver}-src
-  gprbuild -XLIBRARY_TYPE=static -P$(srcdir)/gpr/gpr.gpr
+  gprbuild -XLIBRARY_TYPE=static -p -P gpr/gpr.gpr
 }
 
 package() {
   cd ${srcdir}/gprbuild-gpl-${pkgver}-src
   gprinstall --prefix="${pkgdir}${MINGW_PREFIX}" \
   -XLIBRARY_TYPE=static --lib-subdir=lib/gpr/static --build-name=static \
-  -P$(srcdir)/gpr/gpr.gpr
+  -p -P gpr/gpr.gpr
 
   # Copy License Files
   mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}
