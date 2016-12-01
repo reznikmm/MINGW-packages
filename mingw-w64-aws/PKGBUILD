@@ -17,9 +17,26 @@ source=(# aws-gpl-2016-src.tar.gz
         "http://mirrors.cdn.adacore.com/art/57399112c7a447658d00e1cd")
 sha256sums=('310d7a79fba1cf622f6c8d53103226422c788126198911efef09e372d559db32')
 
+fix_gnat_dll()
+{
+   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # remove them and copy dll-s in place
+
+   libgcc=`gcc -print-libgcc-file-name`
+   adalib=`dirname ${libgcc}`/adalib
+   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+      gcc_bin=`which gcc`
+      bin_dir=`dirname ${gcc_bin}`
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      cp ${bin_dir}/gna{t,rl}-6.dll ${adalib}/
+   fi
+}
+
 prepare()
 {
   cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+  fix_gnat_dll
 }
 
 build() {
