@@ -1,13 +1,11 @@
 # Maintainer: Maxim Reznik <reznikmm@gmail.com>
 
 _realname=libgpr
-pkgbase=mingw-w64-${_realname}
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
 pkgrel=1
 pkgver=2016
 pkgdesc="Ada library to handle GPRbuild project files"
 arch=('any')
-provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 license=('GPL3')
 makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
              "${MINGW_PACKAGE_PREFIX}-gprbuild"
