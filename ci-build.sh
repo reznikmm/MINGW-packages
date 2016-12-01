@@ -4,6 +4,8 @@
 # Author: Renato Silva <br.renatosilva@gmail.com>
 # Author: Qian Hong <fracting@gmail.com>
 
+export MINGW_INSTALLS=mingw64
+
 # Configure
 cd "$(dirname "$0")"
 source 'ci-library.sh'
