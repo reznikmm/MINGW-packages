@@ -42,6 +42,8 @@ prepare()
 {
   cd ${srcdir}/${_realname}
   fix_gnat_dll
+  nuget install oracle.instantclient.redist
+  export PATH=$PATH:'C:/Users/appveyor/.nuget/packages/oracle.instantclient.redist/12.1.0/build/native/bin/x64'
 }
 
 build() {
