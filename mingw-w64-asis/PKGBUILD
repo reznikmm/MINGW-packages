@@ -1,0 +1,44 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=asis
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
+pkgrel=1
+pkgver=2016
+pkgdesc="Ada library to handle GPRbuild project files"
+arch=('any')
+license=('GPL3')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
+             "${MINGW_PACKAGE_PREFIX}-libgpr"
+             "${MINGW_PACKAGE_PREFIX}-libgnatutil"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+         "${MINGW_PACKAGE_PREFIX}-libgpr"
+         "${MINGW_PACKAGE_PREFIX}-libgnatutil"
+         )
+url="https://github.com/AdaCore/gprbuild"
+source=(# asis-gpl-2016-src.tar.gz 
+        "http://mirrors.cdn.adacore.com/art/57399029c7a447658e0aff71"
+        "asis-gpl-ver_check.patch")
+sha256sums=('3e36e0835e291dafe6dd2246748ed12b449d33044c32209d3af012c83064c38e'
+            'd2e3f1d370069f371c242b8190cb176eb8b47397c07d49ae65c7fe6e46ff7bcd')
+
+prepare()
+{
+  cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+  patch -p1 -i "${srcdir}/asis-gpl-ver_check.patch"
+}
+
+build() {
+  cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+  make all
+}
+
+package() {
+  cd ${srcdir}/${_realname}-gpl-${pkgver}-src
+  make install prefix="${pkgdir}${MINGW_PREFIX}"
+
+  # Copy License Files
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}
+  cp -pf COPYING* ${pkgdir}${MINGW_PREFIX}/share/licenses/${_realname}/
+}

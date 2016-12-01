@@ -1,0 +1,33 @@
+diff -Naur asis-gpl-2016-src-orig/asis/a4g-a_opt.adb asis-gpl-2016-src/asis/a4g-a_opt.adb
+--- asis-gpl-2016-src-orig/asis/a4g-a_opt.adb	2016-12-01 16:41:44.670110598 +0200
++++ asis-gpl-2016-src/asis/a4g-a_opt.adb	2016-12-01 16:42:06.065111141 +0200
+@@ -175,7 +175,7 @@
+                when 's' =>
+ 
+                   if Parameter = "-sv" then
+-                     Strong_Version_Check := True;
++                     Strong_Version_Check := False;
+                   else
+                      Unknown_Parameter := True;
+                   end if;
+@@ -241,7 +241,7 @@
+    begin
+       Is_Initialized       := False;
+       ASIS_Warning_Mode    := Normal;
+-      Strong_Version_Check := True;
++      Strong_Version_Check := False;
+       Generate_Bug_Box     := True;
+       Keep_Going           := False;
+    end Set_Off;
+diff -Naur asis-gpl-2016-src-orig/asis/a4g-a_opt.ads asis-gpl-2016-src/asis/a4g-a_opt.ads
+--- asis-gpl-2016-src-orig/asis/a4g-a_opt.ads	2016-12-01 16:41:44.670110598 +0200
++++ asis-gpl-2016-src/asis/a4g-a_opt.ads	2016-12-01 16:42:00.117110990 +0200
+@@ -59,7 +59,7 @@
+    --  treated as an error: ASIS_Failed is raised and the warning message is
+    --  sent to an ASIS Diagnosis string.
+ 
+-   Strong_Version_Check : Boolean := True;
++   Strong_Version_Check : Boolean := False;
+    --  Strong version check means that version strings read from the tree and
+    --  stored in Gnatvsn are compared. Weak check means comparing ASIS version
+    --  numbers. See BA23-002
