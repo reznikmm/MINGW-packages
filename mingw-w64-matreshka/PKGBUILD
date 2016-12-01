@@ -17,6 +17,22 @@ url="http://forge.ada-ru.org/matreshka"
 source=("git+https://github.com/reznikmm/matreshka.git")
 sha256sums=('SKIP')
 
+fix_gnat_dll()
+{
+   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # remove them and copy dll-s in place
+
+   libgcc=`gcc -print-libgcc-file-name`
+   adalib=`dirname ${libgcc}`/adalib
+   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+      gcc_bin=`which gcc`
+      bin_dir=`dirname ${gcc_bin}`
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
+   fi
+}
+
 pkgver()
 {
    date +%Y.%m.%d
@@ -25,6 +41,7 @@ pkgver()
 prepare()
 {
   cd ${srcdir}/${_realname}
+  fix_gnat_dll
 }
 
 build() {
