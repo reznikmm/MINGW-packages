@@ -29,7 +29,7 @@ fix_gnat_dll()
       bin_dir=`dirname ${gcc_bin}`
       echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
       rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      cp ${bin_dir}/gna{t,rl}-6.dll ${adalib}/
+      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
    fi
 }
 
