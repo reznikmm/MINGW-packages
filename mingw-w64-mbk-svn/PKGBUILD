@@ -1,0 +1,91 @@
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+
+_realname=mbk
+pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}-svn
+pkgrel=1
+pkgver=0.8
+pkgdesc="MBK server"
+arch=('any')
+license=('BSD')
+makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+             "${MINGW_PACKAGE_PREFIX}-gprbuild"
+             "${MINGW_PACKAGE_PREFIX}-matreshka"
+             "${MINGW_PACKAGE_PREFIX}-asdd-svn"
+            )
+depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
+         "${MINGW_PACKAGE_PREFIX}-matreshka"
+         "${MINGW_PACKAGE_PREFIX}-asdd-svn"
+         )
+url="http://forge.ada-ru.org/beard"
+source=(${_realname}::"svn+svn://forge.ada-ru.org/beard/trunk/source/mbk"
+ "svn+svn://forge.ada-ru.org/matreshka/trunk/matreshka/testsuite/a2js/library"
+)
+sha256sums=('SKIP' 'SKIP')
+
+fix_gnat_dll()
+{
+   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # remove them and copy dll-s in place
+
+   libgcc=`gcc -print-libgcc-file-name`
+   adalib=`dirname ${libgcc}`/adalib
+   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+      gcc_bin=`which gcc`
+      bin_dir=`dirname ${gcc_bin}`
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      rm -f ${adalib}/libgna{t,rl}-6.dll.a
+      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
+   fi
+}
+
+pkgver()
+{
+  cd ${srcdir}/${_realname}
+  local ver="$(svnversion)"
+  printf "r%s" "${ver//*:}"
+}
+
+prepare()
+{
+  cd ${srcdir}/${_realname}
+  fix_gnat_dll
+  mkdir -p ${srcdir}/matreshka/testsuite/a2js
+  mkdir -p ${srcdir}/matreshka/source/web/tools
+  cp -r ../library ${srcdir}/matreshka/testsuite/a2js/
+  cp -r /mingw64/share/matreshka/a2js ${srcdir}/matreshka/source/web/tools/
+}
+
+build() {
+  cd ${srcdir}/${_realname}
+  make SOEXT=.dll MATRESHKA=${srcdir}/matreshka all js
+}
+
+package() {
+  cd ${srcdir}/${_realname}
+  make SOEXT=.dll MATRESHKA=${srcdir}/matreshka deploy
+  mkdir -p "${pkgdir}${MINGW_PREFIX}"
+  cp -r install "${pkgdir}${MINGW_PREFIX}"
+  pwd
+  echo srcdir:${srcdir}
+  echo $(cygpath ${srcdir})
+  ls ${srcdir}
+  echo '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../asdd.nsi)
+
+  cp -v /mingw64/bin/libgcc_s_seh-1.dll                               ../../
+  cp -v /mingw64/bin/libwinpthread-1.dll                              ../../
+  cp -v /mingw64/bin/libgnat-6.dll                                    ../../
+  cp -v /mingw64/bin/libgnarl-6.dll                                   ../../
+  cp -v /mingw64/lib/matreshka/league/libleague-6.2.dll               ../../
+  cp -v /mingw64/lib/matreshka/servlet/libmatreshka-servlet-6.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/spikedog_api/libspikedog-api-6.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/spikedog_core/libspikedog-core-6.2.dll ../../
+  cp -v /mingw64/lib/matreshka/xml/libmatreshka-xml-6.2.dll           ../../
+  cp -v /mingw64/lib/matreshka/sql_oci/libmatreshka-sql-oci-6.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/sql/libmatreshka-sql-6.2.dll           ../../
+  cp -v /mingw64/bin/asdd.exe ../../
+  cp -v -r install            ../../
+
+  '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../mbk.nsi)
+  echo setup-mbk-${pkgver}.exe
+  mv ../../setup-mbk.exe $(cygpath $APPVEYOR_BUILD_FOLDER/artifacts/setup-mbk-${pkgver}.exe)
+}
