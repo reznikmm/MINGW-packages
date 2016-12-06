@@ -41,8 +41,7 @@ fix_gnat_dll()
 pkgver()
 {
   cd ${srcdir}/${_realname}
-  local ver="$(svnversion)"
-  printf "r%s" "${ver//*:}"
+  cat version.txt
 }
 
 prepare()

@@ -1,6 +1,9 @@
 # name the installer
 OutFile "setup-mbk.exe"
-InstallDir .
+InstallDir "$PROGRAMFILES64\Ada Forge\mbk"
+
+Page directory
+Page instfiles
 
 # default section start; every NSIS script has at least one section.
 Section
@@ -20,9 +23,7 @@ File libmatreshka-xml-6.2.dll
 File libmatreshka-sql-oci-6.2.dll
 File libmatreshka-sql-6.2.dll
 
-CreateDirectory $INSTDIR\install
-SetOutPath $INSTDIR\install
-File /r install\*.*
+File /r "install\*.*"
 
 # default section end
 SectionEnd
