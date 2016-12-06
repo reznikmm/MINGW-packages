@@ -23,7 +23,9 @@ File libmatreshka-xml-6.2.dll
 File libmatreshka-sql-oci-6.2.dll
 File libmatreshka-sql-6.2.dll
 
-File /r "install\*.*"
+CreateDirectory $INSTDIR\install
+SetOutPath $INSTDIR\install
+File /r install\*.*
 
 # default section end
 SectionEnd
