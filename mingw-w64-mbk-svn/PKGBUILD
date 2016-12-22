@@ -68,8 +68,7 @@ package() {
   echo srcdir:${srcdir}
   echo $(cygpath ${srcdir})
   ls ${srcdir}
-  echo '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../asdd.nsi)
-
+  cp -v distrib/* ../../
   cp -v /mingw64/bin/libgcc_s_seh-1.dll                               ../../
   cp -v /mingw64/bin/libwinpthread-1.dll                              ../../
   cp -v /mingw64/bin/libgnat-6.dll                                    ../../
@@ -84,6 +83,7 @@ package() {
   cp -v /mingw64/bin/asdd.exe ../../
   cp -v -r install            ../../
 
+  echo '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../asdd.nsi)
   '/c/Program Files (x86)/NSIS/Bin/makensis.exe' $(cygpath ../../mbk.nsi)
   echo setup-mbk-${pkgver}.exe
   mv ../../setup-mbk.exe $(cygpath $APPVEYOR_BUILD_FOLDER/artifacts/setup-mbk-${pkgver}.exe)
