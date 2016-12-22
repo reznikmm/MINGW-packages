@@ -1,4 +1,4 @@
-# Maintainer: Maxim Reznik <reznikmm@gmail.com>
+# Maintainer: Maxim Reznik <reznikmm@gmail.com> 
 
 _realname=asdd
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}-svn
