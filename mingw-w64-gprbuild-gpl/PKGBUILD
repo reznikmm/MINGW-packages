@@ -3,7 +3,7 @@
 _realname=gprbuild-gpl
 pkgbase=mingw-w64-${_realname}
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
-pkgrel=1
+pkgrel=2
 pkgver=2016
 pkgdesc="Software tool designed to help automate the construction of multi-language systems"
 arch=('any')
