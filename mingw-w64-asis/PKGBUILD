@@ -2,7 +2,7 @@
 
 _realname=asis
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
-pkgrel=1
+pkgrel=2
 pkgver=2016
 pkgdesc="Ada library to handle GPRbuild project files"
 arch=('any')
