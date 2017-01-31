@@ -73,13 +73,13 @@ package() {
   cp -v /mingw64/bin/libwinpthread-1.dll                              ../../
   cp -v /mingw64/bin/libgnat-6.dll                                    ../../
   cp -v /mingw64/bin/libgnarl-6.dll                                   ../../
-  cp -v /mingw64/lib/matreshka/league/libleague-6.2.dll               ../../
-  cp -v /mingw64/lib/matreshka/servlet/libmatreshka-servlet-6.2.dll   ../../
-  cp -v /mingw64/lib/matreshka/spikedog_api/libspikedog-api-6.2.dll   ../../
-  cp -v /mingw64/lib/matreshka/spikedog_core/libspikedog-core-6.2.dll ../../
-  cp -v /mingw64/lib/matreshka/xml/libmatreshka-xml-6.2.dll           ../../
-  cp -v /mingw64/lib/matreshka/sql_oci/libmatreshka-sql-oci-6.2.dll   ../../
-  cp -v /mingw64/lib/matreshka/sql/libmatreshka-sql-6.2.dll           ../../
+  cp -v /mingw64/lib/matreshka/league/libleague-6.3.dll               ../../
+  cp -v /mingw64/lib/matreshka/servlet/libmatreshka-servlet-6.3.dll   ../../
+  cp -v /mingw64/lib/matreshka/spikedog_api/libspikedog-api-6.3.dll   ../../
+  cp -v /mingw64/lib/matreshka/spikedog_core/libspikedog-core-6.3.dll ../../
+  cp -v /mingw64/lib/matreshka/xml/libmatreshka-xml-6.3.dll           ../../
+  cp -v /mingw64/lib/matreshka/sql_oci/libmatreshka-sql-oci-6.3.dll   ../../
+  cp -v /mingw64/lib/matreshka/sql/libmatreshka-sql-6.3.dll           ../../
   cp -v /mingw64/lib/aws.relocatable/libaws.dll                       ../../
   cp -v /mingw64/bin/spikedog_awsd.exe                                ../../
   cp -v -r install            ../../
