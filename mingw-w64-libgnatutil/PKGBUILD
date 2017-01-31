@@ -13,7 +13,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
 depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada")
 url="https://sourceforge.net/projects/gnatutil/"
 source=("http://www.ada-ru.org/files/gnat_util-6.3.0.tar.gz")
-sha256sums=('b172b3c223535c2086eedc207fdbb27c592c66064f5051f0d71bf11080b0d9e0')
+sha256sums=('f3e8df52bd58a4f38ad8bfab2bb399a58b1306f311970863d1d72038b9e774d5')
 
 prepare()
 {
