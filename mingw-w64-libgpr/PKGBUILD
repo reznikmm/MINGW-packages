@@ -2,7 +2,7 @@
 
 _realname=libgpr
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
-pkgrel=2
+pkgrel=3
 pkgver=2016
 pkgdesc="Ada library to handle GPRbuild project files"
 arch=('any')
