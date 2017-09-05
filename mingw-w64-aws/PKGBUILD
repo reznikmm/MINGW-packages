@@ -2,7 +2,7 @@
 
 _realname=aws
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
-pkgrel=2
+pkgrel=3
 pkgver=2016
 pkgdesc="A complete embeddable Web application framework for Ada."
 arch=('any')
@@ -19,17 +19,17 @@ sha256sums=('310d7a79fba1cf622f6c8d53103226422c788126198911efef09e372d559db32')
 
 fix_gnat_dll()
 {
-   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # libgnat-7.dll.a and libgnarl-7.dll.a provided by mingw gcc don't work
    # remove them and copy dll-s in place
 
    libgcc=`gcc -print-libgcc-file-name`
    adalib=`dirname ${libgcc}`/adalib
-   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+   if [ -f ${adalib}/libgnat-7.dll.a ]; then
       gcc_bin=`which gcc`
       bin_dir=`dirname ${gcc_bin}`
-      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-7.dll.a
+      rm -f ${adalib}/libgna{t,rl}-7.dll.a
+      cp ${bin_dir}/libgna{t,rl}-7.dll ${adalib}/
    fi
 }
 
