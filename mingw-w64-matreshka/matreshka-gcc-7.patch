@@ -1,0 +1,33 @@
+Index: gnat/matreshka_uaflex.gpr
+===================================================================
+--- gnat/matreshka_uaflex.gpr	(revision 5768)
++++ gnat/matreshka_uaflex.gpr	(working copy)
+@@ -72,11 +72,26 @@
+       for Executable ("uaflex-driver.adb") use "uaflex";
+ 
+    end Builder;
+-   
++
+    --------------
+    -- Compiler --
+    --------------
+ 
+-   package Compiler renames Matreshka_Common.Compiler;
++   package Compiler is
+ 
++      for Default_Switches ("Ada") use
++        Matreshka_Common.Common_Ada_Switches
++          & Matreshka_Common.Platform_Ada_Switches
++          & Matreshka_Common.Optimization_Ada_Switches
++          & Matreshka_Common.Debug_Ada_Switches;
++
++      for Switches ("matreshka-internals-finite_automatons.adb") use
++        Matreshka_Common.Common_Ada_Switches
++          & Matreshka_Common.Platform_Ada_Switches
++          & Matreshka_Common.Optimization_Ada_Switches
++          & Matreshka_Common.Debug_Ada_Switches
++          & ("-g0");
++
++   end Compiler;
++
+ end Matreshka_Uaflex;

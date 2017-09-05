@@ -2,7 +2,7 @@
 
 _realname=matreshka
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
-pkgrel=1
+pkgrel=2
 pkgver=0.8
 pkgdesc="set of Ada libraries to develop information systems."
 arch=('any')
@@ -15,22 +15,24 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
 depends=("${MINGW_PACKAGE_PREFIX}-gcc-ada"
          )
 url="http://forge.ada-ru.org/matreshka"
-source=("git+https://github.com/reznikmm/matreshka.git")
-sha256sums=('SKIP')
+source=("git+https://github.com/reznikmm/matreshka.git"
+        "matreshka-gcc-7.patch")
+sha256sums=('SKIP'
+            '91ad0736c8eac09c5263d2bfdb79412059d3cd6594e9ed26e3b2f544bd7de7db')
 
 fix_gnat_dll()
 {
-   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # libgnat-7.dll.a and libgnarl-7.dll.a provided by mingw gcc don't work
    # remove them and copy dll-s in place
 
    libgcc=`gcc -print-libgcc-file-name`
    adalib=`dirname ${libgcc}`/adalib
-   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+   if [ -f ${adalib}/libgnat-7.dll.a ]; then
       gcc_bin=`which gcc`
       bin_dir=`dirname ${gcc_bin}`
-      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-7.dll.a
+      rm -f ${adalib}/libgna{t,rl}-7.dll.a
+      cp ${bin_dir}/libgna{t,rl}-7.dll ${adalib}/
    fi
 }
 
@@ -46,6 +48,9 @@ prepare()
   export PATH=$PATH:/oracle.instantclient.redist.12.1/build/native/bin/x64
   cd ${srcdir}/${_realname}
   fix_gnat_dll
+
+  cd ${srcdir}/${_realname}
+  patch -p0 -i ${srcdir}/matreshka-gcc-7.patch
 }
 
 build() {
