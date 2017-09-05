@@ -2,7 +2,7 @@
 
 _realname=libgnatutil
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}
-pkgrel=1
+pkgrel=2
 pkgver=6.3.0
 pkgdesc="Provides internal GNAT compiler components in a library which is used by (at least) ASIS and GNATColl."
 arch=('any')
