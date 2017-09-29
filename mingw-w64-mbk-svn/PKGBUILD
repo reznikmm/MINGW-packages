@@ -1,9 +1,9 @@
-# Maintainer: Maxim Reznik <reznikmm@gmail.com> 
+# Maintainer: Maxim Reznik <reznikmm@gmail.com>
 
 _realname=mbk
 pkgname=${MINGW_PACKAGE_PREFIX}-${_realname}-svn
 pkgrel=1
-pkgver=0.8
+pkgver=0.6
 pkgdesc="MBK server"
 arch=('any')
 license=('BSD')
@@ -24,17 +24,17 @@ sha256sums=('SKIP' 'SKIP')
 
 fix_gnat_dll()
 {
-   # libgnat-6.dll.a and libgnarl-6.dll.a provided by mingw gcc don't work
+   # libgnat-7.dll.a and libgnarl-7.dll.a provided by mingw gcc don't work
    # remove them and copy dll-s in place
 
    libgcc=`gcc -print-libgcc-file-name`
    adalib=`dirname ${libgcc}`/adalib
-   if [ -f ${adalib}/libgnat-6.dll.a ]; then
+   if [ -f ${adalib}/libgnat-7.dll.a ]; then
       gcc_bin=`which gcc`
       bin_dir=`dirname ${gcc_bin}`
-      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      rm -f ${adalib}/libgna{t,rl}-6.dll.a
-      cp ${bin_dir}/libgna{t,rl}-6.dll ${adalib}/
+      echo "Deleting *.dll.a:" rm -f ${adalib}/libgna{t,rl}-7.dll.a
+      rm -f ${adalib}/libgna{t,rl}-7.dll.a
+      cp ${bin_dir}/libgna{t,rl}-7.dll ${adalib}/
    fi
 }
 
@@ -71,17 +71,17 @@ package() {
   cp -v distrib/* ../../
   cp -v /mingw64/bin/libgcc_s_seh-1.dll                               ../../
   cp -v /mingw64/bin/libwinpthread-1.dll                              ../../
-  cp -v /mingw64/bin/libgnat-6.dll                                    ../../
-  cp -v /mingw64/bin/libgnarl-6.dll                                   ../../
+  cp -v /mingw64/bin/libgnat-7.dll                                    ../../
+  cp -v /mingw64/bin/libgnarl-7.dll                                   ../../
   cp -v /mingw64/bin/zlib1.dll                                        ../../
-  cp -v /mingw64/lib/matreshka/league/libleague-6.3.dll               ../../
-  cp -v /mingw64/lib/matreshka/servlet/libmatreshka-servlet-6.3.dll   ../../
-  cp -v /mingw64/lib/matreshka/spikedog_api/libspikedog-api-6.3.dll   ../../
-  cp -v /mingw64/lib/matreshka/spikedog_core/libspikedog-core-6.3.dll ../../
-  cp -v /mingw64/lib/matreshka/spikedog_aws/libspikedog-aws-6.3.dll   ../../
-  cp -v /mingw64/lib/matreshka/xml/libmatreshka-xml-6.3.dll           ../../
-  cp -v /mingw64/lib/matreshka/sql_oci/libmatreshka-sql-oci-6.3.dll   ../../
-  cp -v /mingw64/lib/matreshka/sql/libmatreshka-sql-6.3.dll           ../../
+  cp -v /mingw64/lib/matreshka/league/libleague-7.2.dll               ../../
+  cp -v /mingw64/lib/matreshka/servlet/libmatreshka-servlet-7.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/spikedog_api/libspikedog-api-7.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/spikedog_core/libspikedog-core-7.2.dll ../../
+  cp -v /mingw64/lib/matreshka/spikedog_aws/libspikedog-aws-7.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/xml/libmatreshka-xml-7.2.dll           ../../
+  cp -v /mingw64/lib/matreshka/sql_oci/libmatreshka-sql-oci-7.2.dll   ../../
+  cp -v /mingw64/lib/matreshka/sql/libmatreshka-sql-7.2.dll           ../../
   cp -v /mingw64/lib/aws.relocatable/libaws.dll                       ../../
   cp -v /mingw64/bin/spikedog_awsd.exe                                ../../
   cp -v -r install            ../../
